@@ -1,15 +1,18 @@
 #include<iostream>
 #include<fstream>
+#include<sstream>
 using namespace std;
 
 class Auth
 {
     string username , password;
+    bool isLoggedIn;
 public:
 
     Auth() {
         username = "";
         password = "";
+        isLoggedIn = false;
     }
 
     void authMenu() {
@@ -38,6 +41,46 @@ public:
 
     void registerUser() {
         cout << "\t\t\tRegister\n";
+        while (true) {
+            bool userExists = false;
+            cout << "\nEnter username: ";
+            cin >> username;
+            cout << "\nEnter password: ";
+            cin >> password;
+
+            ifstream readFile("Users.txt");
+
+            if(!readFile.is_open()) {
+                cout << "Error opening file. Exiting.....\n";
+                return;
+            }
+
+            string line;  //Check for if username already exists
+            while(getline(readFile,line)) {
+                stringstream ss(line);
+                string storedUsername, storedPassword;  
+                ss >> storedUsername;
+                if(storedUsername == username) {    
+                    cout << "Username already exists. Please try again.\n";
+                    readFile.close();
+                    userExists = true;
+                    break;
+                }   
+            }
+
+            if(!userExists) {  //If username does not exist, register the user
+                readFile.close();
+                ofstream writeFile("Users.txt", ios::app);
+                if(!writeFile.is_open()) {
+                    cout << "Error opening file. Exiting.....\n";
+                    return;
+                }
+                writeFile << username << " " << password << "\n";
+                writeFile.close();
+                cout << "\nRegistration successful.....\n";
+                break;
+            }
+        }
     }
 
     void login() {
