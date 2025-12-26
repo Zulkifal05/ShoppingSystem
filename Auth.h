@@ -1,10 +1,11 @@
+#pragma once
 #include<iostream>
 #include<fstream>
 #include<sstream>
+#include "Menu.h"
 using namespace std;
 
-class Auth
-{
+class Auth : public Menu {
     string username , password;
     bool isLoggedIn;
 public:
@@ -78,8 +79,13 @@ public:
                 writeFile << username << " " << password << "\n";
                 writeFile.close();
                 cout << "\nRegistration successful.....\n";
+                isLoggedIn = true;
                 break;
             }
+        }
+
+        if(isLoggedIn) {  //If registration is successful, display main menu
+            displayMainMenu();
         }
     }
 
