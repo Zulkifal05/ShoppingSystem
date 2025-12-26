@@ -91,5 +91,43 @@ public:
 
     void login() {
         cout << "\t\t\tLogin\n";
+
+        while(true) {
+            cout << "\nEnter username : ";
+            cin>>username;
+            cout << "\nEnter password : ";
+            cin>>password;
+
+            ifstream readFile("Users.txt");
+            string line , savedUserName , savedPassword;
+
+            if(!readFile.is_open()) {
+                cout << "Error opening file. Exiting.....\n";
+                return;
+            }
+
+            while(getline(readFile,line)) {  //Check for matching username and password
+                stringstream ss(line);
+                ss >> savedUserName >> savedPassword;
+
+                if((savedUserName == username) && (savedPassword == password)) {
+                    readFile.close();
+                    cout << "\nLogin Successful.....\n";
+                    isLoggedIn = true;
+                    break;
+                }
+            }
+
+            if(isLoggedIn) {
+                break;
+            }
+            else {
+                cout << "\nInvalid username or password. Please try again.\n";
+            }
+        }
+
+        if(isLoggedIn) {  //If login is successful, display main menu
+            displayMainMenu();
+        }
     }
 };
