@@ -2,9 +2,10 @@
 #include<iostream>
 #include "Cart.h"
 #include "Order.h"
+#include "Category.h"
 using namespace std;
 
-class Menu : public Cart, public Order {
+class Menu : public Cart, public Order, public Category {
 public:
     void displayMainMenu() {
         string choice;
@@ -15,15 +16,15 @@ public:
             cin >> choice;
 
             if((choice == "1") || (choice == "2") || (choice == "3") || (choice == "4") || (choice == "5")) {
-                cout << "\nYou have selected category " << choice << ". (Functionality not implemented in this snippet)\n";
+                displayCategories(choice);
             }
-            else if(choice == "B") {
+            else if((choice == "B") || (choice == "b")) {
                 displayCart();
             }
-            else if(choice == "C") {
+            else if((choice == "C") || (choice == "c")) {
                 displayOrderHistory();
             }
-            else if(choice == "D") {
+            else if((choice == "D") || (choice == "d")) {
                 cout << "\nLogging out... Goodbye!\n";
                 break;
             }
