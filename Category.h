@@ -4,7 +4,7 @@ using namespace std;
 
 class Category {
 public:
-    void displayCategories() {
+    void displayCategories(string choice) {
         cout << "\nDisplaying Categories... (Functionality not implemented in this snippet)\n";
     }
 };
