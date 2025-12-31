@@ -9,9 +9,9 @@ class Menu : public Cart, public Order, public Category {
 public:
     void displayMainMenu() {
         string choice;
-        cout << "\n\n\t\t\tWelcome to the Shopping System\n\n";
+        cout << "\n\n\t\tWelcome to the Shopping System\n";
         while(true) {
-            cout << "\nA. Categories\n\t1- Garments\n\t2- Cosmetics\n\t3- Electronics\n\t4- Appliances\n\t5- Furniture\nB. View Cart\nC. Order History\nD. Logout\n\n";
+            cout << "\n\t\t\t\tMenu\nA. Categories\n\t1- Garments\n\t2- Cosmetics\n\t3- Electronics\n\t4- Appliances\n\t5- Furniture\nB. View Cart\nC. Order History\nD. Logout\n\n";
             cout << "Please select an option from the menu above : ";
             cin >> choice;
 
