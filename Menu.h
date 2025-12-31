@@ -21,7 +21,7 @@ public:
                 else if(choice == "3") choice = "c3";
                 else if(choice == "4") choice = "c4";
                 else if(choice == "5") choice = "c5";
-                displayCategory(choice);
+                displayCategoryItems(choice);
             }
             else if((choice == "B") || (choice == "b")) {  //If user selects to view cart
                 displayCart();
