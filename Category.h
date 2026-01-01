@@ -95,9 +95,17 @@ public:
                 cout << "\nInvalid itemID entered. Please try again.\n";
             }
             else {  //If valid itemID then add to cart and ask if user wants to add more items
-                addToCart(itemID);
+                Item *temp = headItem;  //Pointer to traverse the linked list
+
+                while(temp != nullptr) {  //Traverse the list to find the entered itemID
+                    if(temp->itemID == itemID) {
+                        break;
+                    }
+                    temp = temp->nextItem;
+                }
+                addToCart(temp->categoryName, temp->itemName, temp->stockAvailable, temp->price);  //Call addToCart function from AddtoCart class
                 string moreChoice;
-                cout <<"Do you want more items from this category? (Y/N) : ";
+                cout << "Do you want more items from this category? (Y/N) : ";
                 cin >> moreChoice;
                 if((moreChoice == "Y") || (moreChoice == "y")) {
                     continue;
