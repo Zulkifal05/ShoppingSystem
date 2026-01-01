@@ -30,6 +30,7 @@ public:
                 displayOrderHistory();
             }
             else if((choice == "D") || (choice == "d")) {  //If user selects to logout
+                clearCart();
                 cout << "\nLogging out... Goodbye!\n";
                 break;
             }
