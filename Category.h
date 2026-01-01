@@ -103,7 +103,7 @@ public:
                     }
                     temp = temp->nextItem;
                 }
-                addToCart(temp->categoryName, temp->itemName, temp->stockAvailable, temp->price);  //Call addToCart function from AddtoCart class
+                addToCart(temp->categoryName, temp->itemName, temp->price);  //Call addToCart function from AddtoCart class
                 string moreChoice;
                 cout << "Do you want more items from this category? (Y/N) : ";
                 cin >> moreChoice;
