@@ -115,6 +115,6 @@ public:
                 }
             }
         }
-        clearCategoryItems();
+        clearCategoryItems();  //Clear the linked list after use because user is now going back to category selection (menu)
     }
 };
