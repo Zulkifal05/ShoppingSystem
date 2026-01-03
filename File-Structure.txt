@@ -6,5 +6,7 @@ username password
 2- Items.txt file contains data of the items available and per record (line) contains following data items i.e category ID , category , itemname , available stock , price as following structure:
 catrgoryID category itemname availableStock price
 
-3- Orders.txt contains data of the orders done and contains following data items i.e username , itemName , price , NoOfItemsBrought in the following structure
-username itemName price NoOfItemsBrought
+3- Orders.txt contains data of the orders done and contains following data items i.e username , delivery address , contact number , payment method and items brought in the structure
+username totalPrice deliveryAddress contactNumber paymentMethod item1,item2,item3......
+
+4- CurrentUser.txt file only contains the username of currently logged in user and is created at time of login and is deleted at time of logout
