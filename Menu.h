@@ -30,7 +30,9 @@ public:
                 displayOrderHistory();
             }
             else if((choice == "D") || (choice == "d")) {  //If user selects to logout
+                dispatchOrdersAndDeleteOrdersQueue();
                 clearCart();
+                deleteCurrentUserFile();
                 cout << "\nLogging out... Goodbye!\n";
                 break;
             }
@@ -38,5 +40,9 @@ public:
                 cout << "\nInvalid option selected. Please try again.\n";
             }
         }
+    }
+
+    void deleteCurrentUserFile() {  //Function to delete CurrentUser.txt file on logout
+        remove("CurrentUser.txt");
     }
 };
