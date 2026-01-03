@@ -5,6 +5,12 @@
 #include "Menu.h"
 using namespace std;
 
+struct loggedInUser {  //Structure to hold logged-in user details
+    string username;
+};
+
+loggedInUser currentUser; //Global variable to hold the currently logged-in user
+
 class Auth : public Menu {
     string username , password;
     bool isLoggedIn;
@@ -80,6 +86,7 @@ public:
                 writeFile.close();
                 cout << "\nRegistration successful.....\n";
                 isLoggedIn = true;
+                currentUser.username = username;  //Set the current logged-in user
                 break;
             }
         }
@@ -114,6 +121,7 @@ public:
                     readFile.close();
                     cout << "\nLogin Successful.....\n";
                     isLoggedIn = true;
+                    currentUser.username = username;  //Set the current logged-in user
                     break;
                 }
             }
