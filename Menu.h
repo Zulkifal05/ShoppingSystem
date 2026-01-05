@@ -5,7 +5,7 @@
 #include "Category.h"
 using namespace std;
 
-class Menu : public Cart, public Order, public Category {
+class Menu : public Cart, virtual public Order, public Category {  //Virtual Order inheritence because it also comes from Cart class
 public:
     void displayMainMenu() {
         string choice;
@@ -31,6 +31,7 @@ public:
             }
             else if((choice == "D") || (choice == "d")) {  //If user selects to logout
                 dispatchOrdersAndDeleteOrdersQueue();
+                deleteOrderHistoryStack();
                 clearCart();
                 deleteCurrentUserFile();
                 cout << "\nLogging out... Goodbye!\n";
