@@ -10,10 +10,121 @@ struct singleOrder {  //Structure to represent an item in the order
     singleOrder* nextOrderItem;
 };
 
+struct singleOrderHistoryItem {  //Structure to represent an item in the order history
+    vector<string> itemNames;  //Vector to hold names of items in the order history
+    int totalPrice;
+    string deliveryAddress , contactNumber , paymentMethod;
+    singleOrderHistoryItem* nextOrderHistoryItem;
+};
+
 singleOrder* orderQueueHead = nullptr; //Global head pointer for Order queue
 singleOrder* orderQueueTail = nullptr; //Global tail pointer for Order queue
 
-class ConfirmOrder {
+singleOrderHistoryItem* orderHistoryStackTop = nullptr; //Top of Order History stack
+
+bool orderHistoryFetched = false; //Flag to indicate if order history has been fetched
+
+class Order {
+public:     
+    void displayOrderHistory() {
+        if(!orderHistoryFetched) {  //Fetch order history from file only if not already fetched
+            //Read current logged-in user from CurrentUser.txt
+            ifstream readCurrentUserFile("CurrentUser.txt");
+            string currentUsername;
+            if(readCurrentUserFile.is_open()) {
+                getline(readCurrentUserFile, currentUsername);
+                readCurrentUserFile.close();
+            } else {
+                currentUsername = "UnknownUser";
+            }
+            cout << "\n\n\t\t\tYour Order History\n\n";
+            fetchOrderHistoryFromFile(currentUsername);
+            iterateAndDisplayOrderHistoryStack();
+        } else {  //If already fetched, just display
+            cout << "\n\n\t\t\tYour Order History\n\n";
+            iterateAndDisplayOrderHistoryStack();
+        }
+    }
+
+    void iterateAndDisplayOrderHistoryStack() {
+        if(orderHistoryStackTop == nullptr) {
+            cout << "\nNo order history found.\n";
+            return;
+        }
+        singleOrderHistoryItem* currentHistoryItem = orderHistoryStackTop;
+        int orderCount = 1;
+        while(currentHistoryItem != nullptr) {
+            cout << "Order " << orderCount << ":\n";
+            cout << "Total Price: " << currentHistoryItem->totalPrice << "\n";
+            cout << "Delivery Address: " << currentHistoryItem->deliveryAddress << "\n";
+            cout << "Contact Number: " << currentHistoryItem->contactNumber << "\n";
+            cout << "Payment Method: " << currentHistoryItem->paymentMethod << "\n";
+            cout << "Items: ";
+            for(int i = 0; i < currentHistoryItem->itemNames.size(); i++) {
+                cout << currentHistoryItem->itemNames[i] << " . ";
+            }
+            cout << "\n\n";
+            currentHistoryItem = currentHistoryItem->nextOrderHistoryItem;
+            orderCount++;
+        }
+    }
+
+    void fetchOrderHistoryFromFile(string currentUsername) {
+        ifstream readOrdersFile("Orders.txt");
+        if(readOrdersFile.is_open()) {
+            string line;
+            while(getline(readOrdersFile, line)) {  //Read each line from Orders.txt
+                stringstream ss(line);
+                string username;
+                ss >> username;
+                if(username == currentUsername) {  //If the order belongs to the current user
+                    singleOrderHistoryItem* newHistoryItem = new singleOrderHistoryItem();
+                    int totalPrice;
+                    string itemNames;  //For reading comma-separated item names
+                    ss >> totalPrice;
+                    newHistoryItem->totalPrice = totalPrice;
+                    ss >> newHistoryItem->deliveryAddress >> newHistoryItem->contactNumber >> newHistoryItem->paymentMethod  >> itemNames;
+                    newHistoryItem->itemNames.clear();
+                    //Split itemNames by commas and store in vector
+                    stringstream itemSS(itemNames);
+                    string itemName;
+                    while(getline(itemSS, itemName, ',')) {
+                        newHistoryItem->itemNames.push_back(itemName);
+                    }
+                    newHistoryItem->nextOrderHistoryItem = orderHistoryStackTop;
+                    orderHistoryStackTop = newHistoryItem;
+                }
+            }
+            readOrdersFile.close();
+            orderHistoryFetched = true; //Set flag to true after fetching
+        }
+    }
+
+    void deleteOrderHistoryStack() {
+        singleOrderHistoryItem* currentHistoryItem = orderHistoryStackTop;
+        while(currentHistoryItem != nullptr) {
+            singleOrderHistoryItem* tempHistoryItem = currentHistoryItem;
+            currentHistoryItem = currentHistoryItem->nextOrderHistoryItem;
+            delete tempHistoryItem;  //Free memory allocated for each history item
+        }
+        orderHistoryStackTop = nullptr; //Reset top pointer
+    }
+
+    void dispatchOrdersAndDeleteOrdersQueue() {
+        singleOrder* currentOrder = orderQueueHead;
+        int orderCount = 0;
+        while(currentOrder != nullptr) {
+            singleOrder* tempOrder = currentOrder;
+            currentOrder = currentOrder->nextOrderItem;
+            delete tempOrder;  //Free memory allocated for each order
+            orderCount++;
+        }
+        orderQueueHead = orderQueueTail = nullptr; //Reset head and tail pointers
+        cout << "\n\t\t\t" << orderCount << " order dispatched.\n\t\tThank you for using our service!\n";
+    }
+};
+
+class ConfirmOrder : virtual public Order {  //Virtual inheritence because Order is also inherited by menu class directly
 public:
     void confirmOrder(vector<string> orderedItemNames, int totalOrderPrice) {  //Function to confirm orders and add in confirmation queue
         string deliveryAddress , contactNumber , paymentMethod;
@@ -61,29 +172,11 @@ public:
             }
             writeOrdersFile << "\n";
             writeOrdersFile.close();
+            deleteOrderHistoryStack(); //Clear existing order history stack to force re-fetch next time
+            orderHistoryFetched = false;  //Reset flag
             cout << "\nOrder queued successfully.\n";
         } else {
             cout << "Error: Unable to open Orders.txt for writing.\n";
         }
-    }
-};
-
-class Order {
-public:     
-    void displayOrderHistory() {
-        cout << "\nDisplaying Order History... (Functionality not implemented in this snippet)\n";
-    }
-
-    void dispatchOrdersAndDeleteOrdersQueue() {
-        singleOrder* currentOrder = orderQueueHead;
-        int orderCount = 0;
-        while(currentOrder != nullptr) {
-            singleOrder* tempOrder = currentOrder;
-            currentOrder = currentOrder->nextOrderItem;
-            delete tempOrder;  //Free memory allocated for each order
-            orderCount++;
-        }
-        orderQueueHead = orderQueueTail = nullptr; //Reset head and tail pointers
-        cout << "\n\t\t\t" << orderCount << " order dispatched.\n\t\tThank you for using our service!\n";
     }
 };
