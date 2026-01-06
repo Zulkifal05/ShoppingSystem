@@ -48,12 +48,15 @@ public:
             cout << "Your cart is empty.\n";
             return;
         }
+        int totalCartPrice = 0;  //Variable to calculate total price of items in cart
         cartItem* current = headCartItem;
         cout << "ItemID" << setw(30) << "Category" << setw(30) << "Item Name" << setw(30) << "Price" << "\n";
         while(current != nullptr) {
+            totalCartPrice += current->price;
             cout << current->cartItemID << setw(35) << current->categoryName << setw(35) << current->itemName << setw(35) << current->price << "\n";
             current = current->nextCartItem;
         }
+        cout << "\nTotal Cart Price: " << totalCartPrice << " Rs\n";
         //Prompt user to confirm order of an item from the cart
         string confirmOrderInput;
 
