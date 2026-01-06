@@ -55,7 +55,7 @@ public:
         int orderCount = 1;
         while(currentHistoryItem != nullptr) {
             cout << "Order " << orderCount << ":\n";
-            cout << "Total Price: " << currentHistoryItem->totalPrice << "\n";
+            cout << "Total Price: " << currentHistoryItem->totalPrice << " Rs\n";
             cout << "Delivery Address: " << currentHistoryItem->deliveryAddress << "\n";
             cout << "Contact Number: " << currentHistoryItem->contactNumber << "\n";
             cout << "Payment Method: " << currentHistoryItem->paymentMethod << "\n";
