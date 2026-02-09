@@ -23,7 +23,7 @@ public:
         while (true) {
             cout << "1. Login\n2. Register\n3. Exit\n";
             cout << "Enter your choice: ";
-            cin >> choice;
+            getline(cin,choice);
             if ((choice == "1") || (choice == "2") || (choice == "3")) {
                 break;
             }
