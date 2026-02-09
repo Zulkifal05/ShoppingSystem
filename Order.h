@@ -128,10 +128,12 @@ class ConfirmOrder : virtual public Order {  //Virtual inheritence because Order
 public:
     void confirmOrder(vector<string> orderedItemNames, int totalOrderPrice) {  //Function to confirm orders and add in confirmation queue
         string deliveryAddress , contactNumber , paymentMethod;
-        cout << "\nEnter your delivery address: ";
-        cin >> deliveryAddress;
-        cout << "Enter your contact number: ";
-        cin >> contactNumber;
+        cout << "\nEnter your delivery address (Without Spaces): ";
+        cin.ignore();
+        getline(cin,deliveryAddress);
+        cout << "Enter your contact number (Without Spaces): ";
+        cin.ignore();
+        getline(cin,contactNumber);
         while(true) {
             cout << "Do you want to pay by (1) Cash on Delivery or (2) Online Payment? Enter 1 or 2: ";
             cin >> paymentMethod;

@@ -44,9 +44,9 @@ public:
         cout << "\t\t\tRegister\n";
         while (true) {
             bool userExists = false;
-            cout << "\nEnter username: ";
+            cout << "\nEnter username (Without Spaces) : ";
             cin >> username;
-            cout << "\nEnter password: ";
+            cout << "\nEnter password (Without Spaces) : ";
             cin >> password;
 
             ifstream readFile("Users.txt");
@@ -99,9 +99,9 @@ public:
         cout << "\t\t\tLogin\n";
 
         while(true) {
-            cout << "\nEnter username : ";
+            cout << "\nEnter username (Without Spaces) : ";
             cin>>username;
-            cout << "\nEnter password : ";
+            cout << "\nEnter password (Without Spaces) : ";
             cin>>password;
 
             ifstream readFile("Users.txt");
